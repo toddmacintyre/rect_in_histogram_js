@@ -1,0 +1,2 @@
+histogram = histogramdocument.getElementById('histogram');
+
