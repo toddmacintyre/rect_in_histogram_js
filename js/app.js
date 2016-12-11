@@ -1,3 +1,6 @@
+// check tallest in first iteration
+
+
 // Largest Rectangle in a Histogram
 
 // [1,3,4,3,2,6,3];
@@ -6,26 +9,37 @@ var lgRect = function(array) {
 
 	//Declare function scope variables
 	var max = {sIndex: null, eIndex: null, height: 0, size: 0};
-	var position = [{index: 0, height: array[0]}];
-	var tallest = {height: 0, index: [null]};
+	var position = [{height: 0, index: 0}];
+	var tallest = {height: array[0], index: [0]};
+	position.pop();
+
 
 	//Iterate through the histogram array. Array index is x-axis, and corresponding values are y-axis
-	for (let i = 1; i < array.length; i++) {
-		console.log(i);
+	var p = 0;
+	var pHeight = 0;
+	for (let i = 0; i < array.length; i++) {
 
+		if ( array[i] > tallest.height ) {
+			tallest.index = [i];
+			tallest.height = array[i];
+		} else if ( array[i] === tallest.height ) {
+			tallest.index.push(i);
+		}
 
 		// retrieve position stack shorthand
-		p = position[position.length - 1].index;
-		pHeight = position[position.length - 1].height;
+		if (position.length > 0) {
+			p = position[position.length - 1].index;
+			pHeight = position[position.length - 1].height;
+		} else {
+			pHeight = 0;
+		}
+		
 
-
-		// If height decreased
-		var flagg = false;
-		while (flagg === false) {
-			if ( array[i] < pHeight ) {
-				
+		if (array[i] < pHeight) {
+			// If height decreased
+			while ( (array[i] < pHeight) && (position.length > 0) ) {
 				// Calculate rectangle size
-				max = rectSize( p, i, pHeight, max);
+				max = rectSize( p, i - 1, pHeight, max);
 
 				// Remove from stack
 				position.pop();
@@ -34,73 +48,37 @@ var lgRect = function(array) {
 				if ( position.length > 0 ) {
 					p = position[position.length - 1].index;
 					pHeight = position[position.length - 1].height;
+				} else {
+					pHeight = 0;
 				}
-
-			} else {
-				flagg = true;
-				continue;
 			}
-		}
 
-
-		// If height increased
-		if ( array[i] > pHeight ) {
+		} else if ( array[i] > pHeight ) {
 			// Capture all steps up to the top of increase and push to stack
 			while ( pHeight < array[i] ) {
 				pHeight += 1;
 				position.push( {index: i, height: pHeight} );
 			}
-			
-			//Check for tallest
-			if ( array[i] > tallest.height ) {
-				tallest.index = [i];
-				tallest.height = array[i];
-			} else if ( array[i] === tallest.height ) {
-				tallest.index.push(i);
-			}
-			continue;
 		}
-
-
-		// If height stayed the same
-		if ( array[i] === pHeight ) {
-			//Check for tallest
-			if ( array[i] === tallest.height ) {
-				tallest.index.push(i);
-			}
-			continue;
-		}
-
-
-		//If last iteration, check remaing stack and check for tallest.
-		//Check for tallest
-		if (i === array.length - 1) {
-			if ( array[i] > tallest.height ) {
-				tallest.index = [i];
-				tallest.height = array[i];
-			} else if ( array[i] === tallest.height ) {
-				tallest.index.push(i);
-			}
-
-			while (position.length != 0) {
-
-				// Calculate rectangle size
-				max = rectSize( p, i + 1, pHeight, max);
-
-				// Remove from stack
-				position.pop();
-
-				// retrieve stack
-				if (position.length != 0) {
-					p = position[position.length - 1].index;
-					pHeight = position[position.length - 1].height;
-				}
-			}
-			continue;
-		}
-
 
 	} //End for loop iteration
+
+
+	//Check remaing stack after last iteration
+	while (position.length != 0) {
+
+		// retrieve stack
+		p = position[position.length - 1].index;
+		pHeight = position[position.length - 1].height;
+
+		// Calculate rectangle size
+		max = rectSize( p, array.length - 1, pHeight, max);
+
+		// Remove from stack
+		position.pop();
+	}
+
+
 
 	console.log("\n---------------------------\nSUMMARY\n---------------------------\n");
 	printArray(array);
@@ -109,11 +87,12 @@ var lgRect = function(array) {
 	return [max, tallest];
 }
 
+
 var rectSize = function(start, end, height, max) {
-	var size = (end - start) * height;
+	var size = (end - start + 1) * height;
 	if (size > max.size) {
 		max.sIndex = start;
-		max.eIndex = end - 1;
+		max.eIndex = end;
 		max.height = height;
 		max.size = size;
 		// console.log("new max size --- index range: " + max.sIndex + " - " + max.eIndex + ", height: " + max.height + ", size: " + max.size + ".");
@@ -143,10 +122,20 @@ var printTallest = function(tallest) {
 	}
 }
 
-histo = [4,5,4,3,4];
-// histo = [7,6,5,4,3];
+
+
+// histo = [3,2,1,0,1,2,3,4];
+// histo = [4,5,4,3,4];
+// histo = [7,6,5,4,3,2,1,0];
 // histo = [1,3,4,3,2,6,3];
 // histo = [0,5,10,7,10,4,6,3,9];
+// histo = [3,20,16,0,0,0,30];
+// histo = [0,0,0,0,0,0,0];
+// histo = [5,5,5,5,5];
+// histo = [5];
+histo = [3,3,3,3,3,3,3,2,3,4,6,9,4,6,6,3,2,3,3,3,3,3,3];
+
+
 rectReturn = lgRect(histo);
 maxRect = rectReturn[0];
 tallest = rectReturn[1].height;
