@@ -11,6 +11,7 @@ var lgRect = function(array) {
 
 	//Iterate through the histogram array. Array index is x-axis, and corresponding values are y-axis
 	for (let i = 1; i < array.length; i++) {
+		console.log(i);
 
 
 		// retrieve position stack shorthand
@@ -30,8 +31,10 @@ var lgRect = function(array) {
 				position.pop();
 
 				// retrieve stack
-				p = position[position.length - 1].index;
-				pHeight = position[position.length - 1].height;
+				if ( position.length > 0 ) {
+					p = position[position.length - 1].index;
+					pHeight = position[position.length - 1].height;
+				}
 
 			} else {
 				flagg = true;
@@ -103,7 +106,7 @@ var lgRect = function(array) {
 	printArray(array);
 	printMax(max);
 	printTallest(tallest);
-	return max
+	return [max, tallest];
 }
 
 var rectSize = function(start, end, height, max) {
@@ -113,7 +116,7 @@ var rectSize = function(start, end, height, max) {
 		max.eIndex = end - 1;
 		max.height = height;
 		max.size = size;
-		console.log("new max size --- index range: " + max.sIndex + " - " + max.eIndex + ", height: " + max.height + ", size: " + max.size + ".");
+		// console.log("new max size --- index range: " + max.sIndex + " - " + max.eIndex + ", height: " + max.height + ", size: " + max.size + ".");
 		return max;
 	}
 	return max;
@@ -140,8 +143,11 @@ var printTallest = function(tallest) {
 	}
 }
 
-
-// rect = [1,3,4,3,2,6,3];
-rect = [0,5,10,7,10,4,6,3,9,0];
-maxRect = lgRect(rect);
+histo = [4,5,4,3,4];
+// histo = [7,6,5,4,3];
+// histo = [1,3,4,3,2,6,3];
+// histo = [0,5,10,7,10,4,6,3,9];
+rectReturn = lgRect(histo);
+maxRect = rectReturn[0];
+tallest = rectReturn[1].height;
 
