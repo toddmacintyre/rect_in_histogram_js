@@ -12,8 +12,9 @@ contentHTML += "Height: " + maxRect.height + "<br>";
 contentHTML += "Area: " + maxRect.size;
 content.innerHTML = contentHTML;
 
-$jsDisplay.prepend(content);
-$jsDisplay.prepend(header);
+$('#results').append(header);
+$('#results').append(content);
+
 
 
 

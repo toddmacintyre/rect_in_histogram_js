@@ -61,9 +61,9 @@ body div.container-fluid {
   border: 1px solid black;
   padding-top: 2%;
   background-color: rgba(100,100,100,.2);
-  height: 300px;
-  width: 370px;
-  margin: auto;
+  height: 280px;
+  width: 350px;
+  
 
   display: flex;
   flex-flow: row nowrap;
