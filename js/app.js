@@ -128,7 +128,7 @@ var printTallest = function(tallest) {
 // histo = [3,2,1,0,1,2,3,4];
 // histo = [4,5,4,3,4];
 // histo = [7,6,5,4,3,2,1,0];
-histo = [1,3,4,3,2,6,3];
+// histo = [1,3,4,3,2,6,3];
 // histo = [0,5,10,7,10,4,6,3,9];
 // histo = [3,20,16,0,0,0,30];
 // histo = [0,0,0,0,0,0,0];
@@ -137,7 +137,5 @@ histo = [1,3,4,3,2,6,3];
 // histo = [3,3,3,3,3,3,3,2,3,4,6,9,4,6,6,3,2,3,3,3,3,3,3];
 
 
-rectReturn = lgRect(histo);
-maxRect = rectReturn[0];
-tallest = rectReturn[1].height;
+
 
