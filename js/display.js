@@ -1,9 +1,24 @@
 //Remove color class when text input is clicked
 //Make the code do something on line 28 validator
 
+//Start with alert hidden;
+$('.alert').hide();
+$('.alert').removeAttr('hidden');
 
+//Add listener to close alert popup
+$('.close').click(function() {
+   $('.alert').hide();
+})
+
+
+//Clicking triggers histogram calculation
 $( '#jsDisplay #histoBtn' ).click( function( event ) {
   event.preventDefault();
+
+
+  //Hide alert box
+  console.log('hiding');
+  $('.alert').hide();
 
 
   //Get DOM elements
@@ -11,7 +26,7 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
   results = document.getElementById('results');
 
 
-  //Clear results and histogram div.
+  //Clear results div and histogram div.
   while (results.hasChildNodes()) {
     results.removeChild(results.lastChild);
 	}
@@ -21,32 +36,30 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 
 
 	//Parse input field value into acceptable histogram array
+	//Get histogram input as string
 	histo = $('#histoInput').val();
 
-	console.log(histo);
 
 	//Check if input is valid
-	var re = /(\d+,)*\d$/g;
+	//Set regex
+	var re = /(\d+,)*\d+$/g;
+	//If there is any sort of match
 	if ( histo.match(re) ) {
+		//See if match is on entire string
 		if ( histo === histo.match(re).join('') ) {
-			console.log('yayyyy!');
+			//Turn string back into array of numbers
 			histo = histo.split(',').map(Number);
+
+			//If only partial match, then invalid input
 		} else {
-			console.log('oh noooo!');
+			$('.alert').show();
 			return null;
 		}
+		//Else, invalid input.
 	} else {
-		console.log('fail, yo!');
+		$('.alert').show();
 		return null;
 	}
-
-
-	console.log(histo);
-
-
-	//If valid, turn input green
-
-	//Else, turn input red and break
 
 
 
@@ -76,7 +89,7 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 
 
 
-	
+	//Get tallest height for histogram display
 	for (let i = 0; i < histo.length; i++) {
 		var height;
 		var bar = document.createElement('div');
@@ -86,12 +99,15 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 			height = histo[i] / tallest * 100; //As a percentage of tallest bar //When tallest is zero, we get NAN because divide by zero	
 		}
 		
+		//Set height and width for each div element and append.
 		var width = 1.0 / histo.length * 93;
 		bar.setAttribute('style', "height: " + height + "%; width: " + width + "%");
 		bar.innerHTML = histo[i];
 		histogram.appendChild(bar);
 	}
 
+
+	//Get
 
 
 });
