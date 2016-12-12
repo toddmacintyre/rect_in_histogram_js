@@ -7,6 +7,9 @@
 
 var lgRect = function(array) {
 
+	//Check if valid input
+	
+
 	//Declare function scope variables
 	var max = {sIndex: null, eIndex: null, height: 0, size: 0};
 	var position = [{height: 0, index: 0}];

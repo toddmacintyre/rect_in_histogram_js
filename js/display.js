@@ -1,4 +1,5 @@
 //Remove color class when text input is clicked
+//Make the code do something on line 28 validator
 
 
 $( '#jsDisplay #histoBtn' ).click( function( event ) {
@@ -20,9 +21,28 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 
 
 	//Parse input field value into acceptable histogram array
-	histo = $('#histoInput').val().split(',').map(Number);
+	histo = $('#histoInput').val();
+
+	console.log(histo);
 
 	//Check if input is valid
+	var re = /(\d+,)*\d$/g;
+	if ( histo.match(re) ) {
+		if ( histo === histo.match(re).join('') ) {
+			console.log('yayyyy!');
+			histo = histo.split(',').map(Number);
+		} else {
+			console.log('oh noooo!');
+			return null;
+		}
+	} else {
+		console.log('fail, yo!');
+		return null;
+	}
+
+
+	console.log(histo);
+
 
 	//If valid, turn input green
 
