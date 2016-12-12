@@ -7,6 +7,9 @@
 
 var lgRect = function(array) {
 
+	//Check if valid input
+	
+
 	//Declare function scope variables
 	var max = {sIndex: null, eIndex: null, height: 0, size: 0};
 	var position = [{height: 0, index: 0}];
@@ -29,8 +32,8 @@ var lgRect = function(array) {
 		// retrieve position stack shorthand
 		if (position.length > 0) {
 			p = position[position.length - 1].index;
-			pHeight = position[position.length - 1].height;
-		} else {
+			pHeight = position[position.length - 1].height
+;		} else {
 			pHeight = 0;
 		}
 		
@@ -53,6 +56,7 @@ var lgRect = function(array) {
 				}
 			}
 
+			// If height increased
 		} else if ( array[i] > pHeight ) {
 			// Capture all steps up to the top of increase and push to stack
 			while ( pHeight < array[i] ) {
@@ -133,10 +137,8 @@ var printTallest = function(tallest) {
 // histo = [0,0,0,0,0,0,0];
 // histo = [5,5,5,5,5];
 // histo = [5];
-histo = [3,3,3,3,3,3,3,2,3,4,6,9,4,6,6,3,2,3,3,3,3,3,3];
+// histo = [3,3,3,3,3,3,3,2,3,4,6,9,4,6,6,3,2,3,3,3,3,3,3];
 
 
-rectReturn = lgRect(histo);
-maxRect = rectReturn[0];
-tallest = rectReturn[1].height;
+
 
