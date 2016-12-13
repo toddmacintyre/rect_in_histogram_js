@@ -1,5 +1,6 @@
-//Remove color class when text input is clicked
-//Make the code do something on line 28 validator
+
+//Manage the display of histogram results
+
 
 //Start with alert hidden;
 $('.alert').hide();
@@ -11,6 +12,13 @@ $('.close').click(function() {
 })
 
 
+$('#histoInput').keypress(function(e){
+    if(e.which == 13){  //Enter key pressed
+        $('#jsDisplay #histoBtn').click();  //Trigger search button click event
+    }
+});
+
+//#histoBtn click event
 //Clicking triggers histogram calculation
 $( '#jsDisplay #histoBtn' ).click( function( event ) {
   event.preventDefault();
@@ -24,21 +32,25 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
   //Get DOM elements
   histogram = document.getElementById('histogram');
   results = document.getElementById('results');
+  mHistogram = document.getElementById('mHistogram');
 
 
-  //Clear results div and histogram div.
+  //Clear results div, histogram div, and mHistogram div
   while (results.hasChildNodes()) {
     results.removeChild(results.lastChild);
 	}
 	while (histogram.hasChildNodes()) {
     histogram.removeChild(histogram.lastChild);
 	}
+	while (mHistogram.hasChildNodes()) {
+    mHistogram.removeChild(mHistogram.lastChild);
+	}
+
 
 
 	//Parse input field value into acceptable histogram array
 	//Get histogram input as string
 	histo = $('#histoInput').val();
-
 
 	//Check if input is valid
 	//Set regex
@@ -88,7 +100,6 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 
 
 
-
 	//Get tallest height for histogram display
 	for (let i = 0; i < histo.length; i++) {
 		var height;
@@ -106,9 +117,21 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 		histogram.appendChild(bar);
 	}
 
+	for ( let i = 0; i < histo.length; i++ ) {
+		var mHeight; //maxHeight for displaying the max area of a rectangle
+		var mBar = document.createElement('div');
+		if ( i < maxRect.sIndex || i > maxRect.eIndex ) {
+			mHeight = 0;
+			$(mBar).css('visiblitiy', 'hidden');
+		} else {
+			mHeight = maxRect.height / tallest * 100;
+		}
 
-	//Get
+		var mWidth = 1.0 / histo.length * 100;
+		mBar.setAttribute('style', "height: " + mHeight + "%; width: " + mWidth + "%");
+		mHistogram.appendChild(mBar);
+	}
 
 
-});
+});// end #histoBtn click event
 
