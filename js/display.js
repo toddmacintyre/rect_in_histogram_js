@@ -88,9 +88,11 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 
 	//Create result content element
 	var content = document.createElement('p');
-	var contentHTML = "Range: index " + maxRect.sIndex + "-" + maxRect.eIndex + "<br>";
-	contentHTML += "Height: " + maxRect.height + "<br>";
-	contentHTML += "Area: " + maxRect.size;
+	var contentHTML = "";
+	contentHTML = "Histogram Length: " + histo.length;
+	contentHTML += "<br>Max Range: #" + (maxRect.sIndex + 1) + "-" + (maxRect.eIndex + 1) + "<br>";
+	contentHTML += "Max Height: " + maxRect.height + "<br>";
+	contentHTML += "Max Area: " + maxRect.size;
 	content.innerHTML = contentHTML;
 
 
@@ -112,7 +114,13 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 		
 		//Set height and width for each div element and append.
 		var width = 1.0 / histo.length * 93;
-		bar.setAttribute('style', "height: " + height + "%; width: " + width + "%");
+		//Adjust font-size for longer histogram inputs
+		if (histo.length > 6) {
+			bar.setAttribute('style', "height: " + height + "%; width: " + width + "%; font-size: .65rem");
+		} else {
+			bar.setAttribute('style', "height: " + height + "%; width: " + width + "%");	
+		}
+		
 		bar.innerHTML = histo[i];
 		histogram.appendChild(bar);
 	}
@@ -131,6 +139,8 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 		mBar.setAttribute('style', "height: " + mHeight + "%; width: " + mWidth + "%");
 		mHistogram.appendChild(mBar);
 	}
+
+
 
 
 });// end #histoBtn click event
