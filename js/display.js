@@ -1,52 +1,77 @@
-//Remove color class when text input is clicked
-//Make the code do something on line 28 validator
+
+//Manage the display of histogram results
 
 
+//Start with alert hidden;
+$('.alert').hide();
+$('.alert').removeAttr('hidden');
+
+//Add listener to close alert popup
+$('.close').click(function() {
+   $('.alert').hide();
+})
+
+
+$('#histoInput').keypress(function(e){
+    if(e.which == 13){  //Enter key pressed
+        $('#jsDisplay #histoBtn').click();  //Trigger search button click event
+    }
+});
+
+//#histoBtn click event
+//Clicking triggers histogram calculation
 $( '#jsDisplay #histoBtn' ).click( function( event ) {
   event.preventDefault();
+
+
+  //Hide alert box
+  console.log('hiding');
+  $('.alert').hide();
 
 
   //Get DOM elements
   histogram = document.getElementById('histogram');
   results = document.getElementById('results');
+  mHistogram = document.getElementById('mHistogram');
 
 
-  //Clear results and histogram div.
+  //Clear results div, histogram div, and mHistogram div
   while (results.hasChildNodes()) {
     results.removeChild(results.lastChild);
 	}
 	while (histogram.hasChildNodes()) {
     histogram.removeChild(histogram.lastChild);
 	}
-
-
-	//Parse input field value into acceptable histogram array
-	histo = $('#histoInput').val();
-
-	console.log(histo);
-
-	//Check if input is valid
-	var re = /(\d+,)*\d$/g;
-	if ( histo.match(re) ) {
-		if ( histo === histo.match(re).join('') ) {
-			console.log('yayyyy!');
-			histo = histo.split(',').map(Number);
-		} else {
-			console.log('oh noooo!');
-			return null;
-		}
-	} else {
-		console.log('fail, yo!');
-		return null;
+	while (mHistogram.hasChildNodes()) {
+    mHistogram.removeChild(mHistogram.lastChild);
 	}
 
 
-	console.log(histo);
 
+	//Parse input field value into acceptable histogram array
+	//Get histogram input as string
+	histo = $('#histoInput').val();
 
-	//If valid, turn input green
+	//Check if input is valid
+	//Set regex
+	var re = /(\d+,)*\d+$/g;
+	//If there is any sort of match
+	if ( histo.match(re) ) {
+		//See if match is on entire string
+		if ( histo === histo.match(re).join('') ) {
+			//Turn string back into array of numbers
+			histo = histo.split(',').map(Number);
 
-	//Else, turn input red and break
+			//If only partial match, then invalid input
+		} else {
+			$('.alert').show();
+			return null;
+		}
+		//Else, invalid input.
+	} else {
+		$('.alert').show();
+		return null;
+	}
 
 
 
@@ -75,8 +100,7 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 
 
 
-
-	
+	//Get tallest height for histogram display
 	for (let i = 0; i < histo.length; i++) {
 		var height;
 		var bar = document.createElement('div');
@@ -86,13 +110,28 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 			height = histo[i] / tallest * 100; //As a percentage of tallest bar //When tallest is zero, we get NAN because divide by zero	
 		}
 		
+		//Set height and width for each div element and append.
 		var width = 1.0 / histo.length * 93;
 		bar.setAttribute('style', "height: " + height + "%; width: " + width + "%");
 		bar.innerHTML = histo[i];
 		histogram.appendChild(bar);
 	}
 
+	for ( let i = 0; i < histo.length; i++ ) {
+		var mHeight; //maxHeight for displaying the max area of a rectangle
+		var mBar = document.createElement('div');
+		if ( i < maxRect.sIndex || i > maxRect.eIndex ) {
+			mHeight = 0;
+			$(mBar).css('visiblitiy', 'hidden');
+		} else {
+			mHeight = maxRect.height / tallest * 100;
+		}
+
+		var mWidth = 1.0 / histo.length * 100;
+		mBar.setAttribute('style', "height: " + mHeight + "%; width: " + mWidth + "%");
+		mHistogram.appendChild(mBar);
+	}
 
 
-});
+});// end #histoBtn click event
 

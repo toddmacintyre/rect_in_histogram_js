@@ -1,9 +1,9 @@
-// check tallest in first iteration
-
-
 // Largest Rectangle in a Histogram
 
-// [1,3,4,3,2,6,3];
+
+// ---------------------------------------------------------------------------------------------------- //
+// Main Function
+// ---------------------------------------------------------------------------------------------------- //
 
 var lgRect = function(array) {
 
@@ -22,6 +22,7 @@ var lgRect = function(array) {
 	var pHeight = 0;
 	for (let i = 0; i < array.length; i++) {
 
+		// Check if new tallest
 		if ( array[i] > tallest.height ) {
 			tallest.index = [i];
 			tallest.height = array[i];
@@ -29,11 +30,12 @@ var lgRect = function(array) {
 			tallest.index.push(i);
 		}
 
+
 		// retrieve position stack shorthand
 		if (position.length > 0) {
 			p = position[position.length - 1].index;
-			pHeight = position[position.length - 1].height
-;		} else {
+			pHeight = position[position.length - 1].height;
+		} else {
 			pHeight = 0;
 		}
 		
@@ -55,6 +57,7 @@ var lgRect = function(array) {
 					pHeight = 0;
 				}
 			}
+
 
 			// If height increased
 		} else if ( array[i] > pHeight ) {
@@ -84,13 +87,20 @@ var lgRect = function(array) {
 
 
 
-	console.log("\n---------------------------\nSUMMARY\n---------------------------\n");
-	printArray(array);
-	printMax(max);
-	printTallest(tallest);
+	// console.log("\n---------------------------\nSUMMARY\n---------------------------\n");
+	// printArray(array);
+	// printMax(max);
+	// printTallest(tallest);
+
+
 	return [max, tallest];
 }
 
+
+
+// ---------------------------------------------------------------------------------------------------- //
+// Helper functions
+// ---------------------------------------------------------------------------------------------------- //
 
 var rectSize = function(start, end, height, max) {
 	var size = (end - start + 1) * height;
@@ -125,20 +135,5 @@ var printTallest = function(tallest) {
 		console.log("Tallest point --- index: " + tallest.index[0] + " - Height: " + tallest.height + ".");
 	}
 }
-
-
-
-// histo = [3,2,1,0,1,2,3,4];
-// histo = [4,5,4,3,4];
-// histo = [7,6,5,4,3,2,1,0];
-// histo = [1,3,4,3,2,6,3];
-// histo = [0,5,10,7,10,4,6,3,9];
-// histo = [3,20,16,0,0,0,30];
-// histo = [0,0,0,0,0,0,0];
-// histo = [5,5,5,5,5];
-// histo = [5];
-// histo = [3,3,3,3,3,3,3,2,3,4,6,9,4,6,6,3,2,3,3,3,3,3,3];
-
-
 
 
