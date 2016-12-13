@@ -115,11 +115,18 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 		//Set height and width for each div element and append.
 		var width = 1.0 / histo.length * 93;
 		//Adjust font-size for longer histogram inputs
-		if (histo.length > 6) {
-			bar.setAttribute('style', "height: " + height + "%; width: " + width + "%; font-size: .65rem");
+		if ( histo.length > 20 ) {
+			bar.setAttribute('style', "height: " + height + "%; width: " + width + "%; font-size: .45rem");
 		} else {
-			bar.setAttribute('style', "height: " + height + "%; width: " + width + "%");	
+			if ( histo[i].toString().length > 2 ) {
+				bar.setAttribute('style', "height: " + height + "%; width: " + width + "%; font-size: .65rem");
+			} else if ( histo[i].toString().length > 3) {
+				bar.setAttribute('style', "height: " + height + "%; width: " + width + "%; font-size: .45rem");
+			} else {
+				bar.setAttribute('style', "height: " + height + "%; width: " + width + "%; font-size: .8rem");	
+			}
 		}
+
 		
 		bar.innerHTML = histo[i];
 		histogram.appendChild(bar);
@@ -139,6 +146,11 @@ $( '#jsDisplay #histoBtn' ).click( function( event ) {
 		mBar.setAttribute('style', "height: " + mHeight + "%; width: " + mWidth + "%");
 		mHistogram.appendChild(mBar);
 	}
+
+
+	// for ( let i = 0; i < histo.length; i++ ) {
+	// 	if ( histo[i].toString().length > 3 );
+	// }
 
 
 

@@ -96,7 +96,6 @@ body div.container-fluid {
   border: 1px solid black;
   border-bottom: none;
   text-overflow: clip;
-  font-size: .75rem;
 }
 
 #mHistogram div {
